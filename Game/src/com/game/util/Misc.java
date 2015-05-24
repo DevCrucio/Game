@@ -9,11 +9,11 @@ public class Misc {
 	/*
 	 * For Logging
 	 */
-	public static Date date = new Date();
 
 	public static void log(String msg) {
-		System.out.println("[Info " + new Timestamp(date.getTime()) + "] "
-				+ msg);
+		Date date = new Date();
+		System.out.println("[" + new Timestamp(date.getTime()) + "] " + msg
+				+ " ");
 	}
 
 	/*
