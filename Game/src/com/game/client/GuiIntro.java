@@ -1,5 +1,6 @@
 package com.game.client;
 
+
 public class GuiIntro extends Gui {
 
 	@Override
