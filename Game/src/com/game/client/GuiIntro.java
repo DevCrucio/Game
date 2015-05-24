@@ -8,8 +8,7 @@ public class GuiIntro extends Gui {
 
 	@Override
 	public void create() {
-		gc.setGui(new GuiGame(gc, "127.0.0.1", 12345, "Player"
-				+ (System.currentTimeMillis() % 1000)));
+		gc.setGui(new GuiGame(gc, "127.0.0.1", 12345, "Test", "abc123"));
 	}
 
 	@Override
