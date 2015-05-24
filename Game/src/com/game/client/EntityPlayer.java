@@ -4,6 +4,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 public class EntityPlayer extends Entity {
+	public String name;
 
 	public EntityPlayer(World world, int ID) {
 		super(world, ID);
