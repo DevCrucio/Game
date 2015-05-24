@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import com.esotericsoftware.kryo.Kryo;
+import com.game.packet.Accept;
+import com.game.packet.Login;
 
 public class Misc {
 	/*
@@ -20,6 +22,7 @@ public class Misc {
 	 * Method that registers on Client and Server the same way
 	 */
 	public static void reg(Kryo kryo) {
-
+		kryo.register(Accept.class);
+		kryo.register(Login.class);
 	}
 }
