@@ -3,6 +3,8 @@ package com.game.client;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import com.game.packet.EntityMove;
+
 public class EntityPlayer extends Entity {
 	public String name;
 
@@ -64,4 +66,15 @@ public class EntityPlayer extends Entity {
 		GL11.glEnd();
 	}
 
+	/*
+	 * Send
+	 */
+	public void send() {
+		EntityMove em = new EntityMove();
+		em.x = x;
+		em.y = y;
+		em.dx = dx;
+		em.dy = dy;
+		world.gg.client.sendUDP(em);
+	}
 }
