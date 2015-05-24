@@ -33,6 +33,7 @@ public class GuiGame extends Gui {
 		Login login = new Login();
 		login.name = name;
 		login.pass = pass;
+		client.sendTCP(login);
 	}
 
 	public void login(int ID, String name) {
@@ -45,12 +46,14 @@ public class GuiGame extends Gui {
 
 	@Override
 	public void update(float delta) {
-		world.update(delta);
+		if (world != null)
+			world.update(delta);
 	}
 
 	@Override
 	public void render() {
-		world.render();
+		if (world != null)
+			world.render();
 	}
 
 }
