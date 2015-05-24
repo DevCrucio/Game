@@ -47,7 +47,7 @@ public class GameClient {
 			// Init OpenGL
 			GL11.glMatrixMode(GL11.GL_PROJECTION);
 			GL11.glLoadIdentity();
-			GL11.glOrtho(0, 1920, 0, 1080, 1, -1);
+			GL11.glOrtho(0, 960, 0, 540, 1, -1);
 			GL11.glMatrixMode(GL11.GL_MODELVIEW);
 			GL11.glLoadIdentity();
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
