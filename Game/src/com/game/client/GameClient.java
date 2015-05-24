@@ -55,6 +55,8 @@ public class GameClient {
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			// Init other Stuff
 			run = true;
+			gui = new GuiIntro();
+			gui.create();
 			// First Delta timestamp
 			getDelta();
 		} catch (LWJGLException e) {
@@ -69,13 +71,13 @@ public class GameClient {
 		while (run) {
 			// Update
 			float delta = getDelta();
-
+			gui.update(delta);
 			// Clear Screen
 			GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT | GL11.GL_COLOR_BUFFER_BIT
 					| GL11.GL_STENCIL_BUFFER_BIT);
 			// Render
 			GL11.glPushMatrix();
-
+			gui.render();
 			GL11.glPopMatrix();
 			// Show on Screen
 			Display.update();
@@ -91,6 +93,7 @@ public class GameClient {
 	 * Unload
 	 */
 	private void destroy() {
+		gui.destroy();
 		// Destroy OpenGL context
 		Mouse.destroy();
 		Keyboard.destroy();
@@ -112,5 +115,14 @@ public class GameClient {
 		long dif = System.nanoTime() - time;
 		time = System.nanoTime();
 		return (dif / 1000000f);
+	}
+
+	/*
+	 * Gui Change Method
+	 */
+	public void setGui(Gui gui) {
+		this.gui.destroy();
+		this.gui = gui;
+		this.gui.create();
 	}
 }
