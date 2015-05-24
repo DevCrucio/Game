@@ -18,20 +18,42 @@ public class GameServer {
 	 */
 	public Server server;
 	public World world;
+	public boolean run = true;
 
 	/*
 	 * Server Start
 	 */
 	public GameServer() {
 		try {
+			Misc.log("Starting Server ...");
 			server = new Server();
 			server.addListener(new ServerListener(this));
 			Misc.reg(server.getKryo());
+			Misc.log("Port " + 12345 + " ...");
 			server.bind(12345, 12345);
 			server.start();
-			world = new World();
+			Misc.log("Loading World ...");
+			world = new World(this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		// Loop
+		Misc.log("Done!");
+		getDelta();
+		while (run) {
+			world.update(getDelta());
+		}
 	}
+
+	/*
+	 * Delta
+	 */
+	private long time;
+
+	private float getDelta() {
+		long dif = System.nanoTime() - time;
+		time = System.nanoTime();
+		return (dif / 1000000f);
+	}
+
 }
