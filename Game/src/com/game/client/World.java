@@ -18,17 +18,24 @@ public class World {
 	public EntityPlayer player;
 
 	/*
-	 * Render
+	 * Update
 	 */
+	private float send;
+
 	public void update(float delta) {
 		player.poll(delta);
 		for (Entity entity : entities.values()) {
 			entity.update(delta);
 		}
+		send += delta;
+		if (send >= 50) {
+			send -= 50;
+			player.send();
+		}
 	}
 
 	/*
-	 * Update
+	 * Render
 	 */
 	public void render() {
 		player.cam();
@@ -46,4 +53,5 @@ public class World {
 		}
 		player.gui();
 	}
+
 }
