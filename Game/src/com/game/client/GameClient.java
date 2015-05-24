@@ -55,7 +55,7 @@ public class GameClient {
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			// Init other Stuff
 			run = true;
-			gui = new GuiIntro();
+			gui = new GuiIntro(this);
 			gui.create();
 			// First Delta timestamp
 			getDelta();
