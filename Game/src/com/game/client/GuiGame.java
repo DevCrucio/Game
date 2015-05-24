@@ -8,6 +8,8 @@ public class GuiGame extends Gui {
 		super(gc);
 		// Setup World
 		world = new World(this);
+		world.player = new EntityPlayer(world, 1);
+		world.entities.put(1, world.player);
 	}
 
 	@Override
