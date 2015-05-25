@@ -37,8 +37,10 @@ public class EntityPlayer extends Entity {
 		public void received(Connection con, Object obj) {
 			if (obj instanceof EntityMove) {
 				EntityMove em = (EntityMove) obj;
-				x = em.x;
-				y = em.y;
+				con.updateReturnTripTime();
+				float ping = con.getReturnTripTime();
+				x = em.x + em.dx * ping;
+				y = em.y + em.dy * ping;
 				dx = em.dx;
 				dy = em.dy;
 			}
