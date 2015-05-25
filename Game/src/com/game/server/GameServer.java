@@ -5,7 +5,7 @@ import java.io.IOException;
 import com.esotericsoftware.kryonet.Server;
 import com.game.util.Misc;
 
-public class GameServer {
+public class GameServer extends Thread {
 	/*
 	 * Start Method
 	 */
