@@ -37,8 +37,10 @@ public class ClientListener extends Listener {
 		if (obj instanceof EntityMove) {
 			EntityMove em = (EntityMove) obj;
 			Entity entity = gg.world.entities.get(em.ID);
-			entity.x = em.x;
-			entity.y = em.y;
+			con.updateReturnTripTime();
+			float ping = con.getReturnTripTime();
+			entity.x = em.x + em.dx * ping;
+			entity.y = em.y + em.dy * ping;
 			entity.dx = em.dx;
 			entity.dy = em.dy;
 		}
