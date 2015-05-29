@@ -4,6 +4,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import com.game.packet.EntityMove;
+import com.game.util.Text;
 
 public class EntityOwn extends Entity {
 	public String name;
@@ -64,6 +65,10 @@ public class EntityOwn extends Entity {
 		GL11.glVertex2f(5, 5);
 		GL11.glVertex2f(-5, 5);
 		GL11.glEnd();
+		// Text Rendering
+		GL11.glColor3f(0.2f, 0.4f, 0.8f);
+		GL11.glTranslatef(0, 10, 0);
+		this.world.gg.gc.text.draw(name, 0.5f, Text.ALIGN.CENTER);
 	}
 
 	/*
