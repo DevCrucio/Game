@@ -1,7 +1,12 @@
 package com.game.server;
 
+import java.io.File;
+
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
+import com.game.file.Tag;
+import com.game.file.TagString;
+import com.game.file.TagSubtag;
 import com.game.packet.Login;
 
 public class ServerListener extends Listener {
@@ -15,8 +20,13 @@ public class ServerListener extends Listener {
 	public void received(Connection con, Object obj) {
 		if (obj instanceof Login) {
 			Login login = (Login) obj;
-			if (login.name.equals("Test") && login.pass.equals("abc123")) {
-				gs.world.login("Test", con);
+			File file = new File("./server/" + login.name + ".cgx");
+			TagSubtag user = (TagSubtag) Tag.load(file);
+			TagSubtag info = (TagSubtag) user.getTag("CharInfo");
+			TagString pass = (TagString) info.getTag("Password");
+			TagString name = (TagString) info.getTag("Username");
+			if (login.pass.equals(pass.getValue())) {
+				gs.world.login(name.getValue(), con);
 			}
 		}
 	}
