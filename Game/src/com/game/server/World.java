@@ -83,7 +83,7 @@ public class World {
 			}
 		}
 		// Add him to the HashMap
-		EntityPlayer ep = new EntityPlayer(this, accept.ID, con);
+		EntityPlayer ep = new EntityPlayer(this, accept.ID, con, tag);
 		ep.name = name;
 		ep.x = vx;
 		ep.y = vy;

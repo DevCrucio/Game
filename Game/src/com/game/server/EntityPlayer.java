@@ -1,18 +1,23 @@
 package com.game.server;
 
+import java.io.File;
+
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
+import com.game.file.Tag;
 import com.game.packet.EntityMove;
 import com.game.packet.EntityRem;
 
 public class EntityPlayer extends Entity {
 	public String name;
 	public Connection con;
+	public Tag tag;
 
-	public EntityPlayer(World world, int ID, Connection con) {
+	public EntityPlayer(World world, int ID, Connection con, Tag tag) {
 		super(world, ID);
 		this.con = con;
 		con.addListener(new PlayerListener());
+		this.tag = tag;
 	}
 
 	@Override
@@ -53,6 +58,7 @@ public class EntityPlayer extends Entity {
 			rem.ID = ID;
 			world.gs.server.sendToAllTCP(rem);
 			world.entities.remove(ID);
+			Tag.save(tag, new File(tag.getName()));
 		}
 	}
 }
