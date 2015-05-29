@@ -4,6 +4,7 @@ public abstract class Entity {
 	public final int ID;
 	public final World world;
 	public float x, y, dx, dy;
+	public float lerpX, lerpY;
 
 	public Entity(World world, int ID) {
 		this.ID = ID;

@@ -39,8 +39,8 @@ public class ClientListener extends Listener {
 			Entity entity = gg.world.entities.get(em.ID);
 			con.updateReturnTripTime();
 			float ping = con.getReturnTripTime();
-			entity.x = em.x + em.dx * ping;
-			entity.y = em.y + em.dy * ping;
+			entity.lerpX = em.x + em.dx * ping;
+			entity.lerpY = em.y + em.dy * ping;
 			entity.dx = em.dx;
 			entity.dy = em.dy;
 		}
