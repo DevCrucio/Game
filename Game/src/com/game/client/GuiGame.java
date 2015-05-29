@@ -39,7 +39,7 @@ public class GuiGame extends Gui {
 	public void login(int ID, String name) {
 		// Setup World
 		world = new World(this);
-		world.player = new EntityPlayer(world, ID);
+		world.player = new EntityOwn(world, ID);
 		world.player.name = name;
 		world.player.world.entities.put(ID, world.player);
 	}

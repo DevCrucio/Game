@@ -15,7 +15,7 @@ public class World {
 	 * Entities [ID, Entity]
 	 */
 	public ConcurrentHashMap<Integer, Entity> entities = new ConcurrentHashMap<Integer, Entity>();
-	public EntityPlayer player;
+	public EntityOwn player;
 
 	/*
 	 * Update
