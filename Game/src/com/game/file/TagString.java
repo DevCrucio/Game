@@ -7,7 +7,7 @@ import java.io.IOException;
 import org.lwjgl.input.Keyboard;
 
 public class TagString extends Tag {
-	private String value;
+	private String value = "";
 
 	public TagString(String name) {
 		super(2, name);
