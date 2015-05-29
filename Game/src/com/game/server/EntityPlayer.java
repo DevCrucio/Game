@@ -5,8 +5,12 @@ import java.io.File;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.game.file.Tag;
+import com.game.file.TagBoolean;
+import com.game.file.TagFloat;
+import com.game.file.TagSubtag;
 import com.game.packet.EntityMove;
 import com.game.packet.EntityRem;
+import com.game.util.Misc;
 
 public class EntityPlayer extends Entity {
 	public String name;
@@ -58,7 +62,16 @@ public class EntityPlayer extends Entity {
 			rem.ID = ID;
 			world.gs.server.sendToAllTCP(rem);
 			world.entities.remove(ID);
+			TagSubtag user = (TagSubtag) tag;
+			TagSubtag loc = (TagSubtag) user.getTag("Location");
+			TagFloat tx = (TagFloat) loc.getTag("X");
+			tx.setValue(x);
+			TagFloat ty = (TagFloat) loc.getTag("Y");
+			ty.setValue(y);
+			TagBoolean tlookLeft = (TagBoolean) loc.getTag("LookLeft");
+			tlookLeft.setValue(lookLeft);
 			Tag.save(tag, new File(tag.getName()));
+			Misc.log(name + " disconnected.");
 		}
 	}
 }
