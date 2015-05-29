@@ -23,14 +23,16 @@ public class World {
 	private float send;
 
 	public void update(float delta) {
-		player.poll(delta);
+		if (player != null)
+			player.poll(delta);
 		for (Entity entity : entities.values()) {
 			entity.update(delta);
 		}
 		send += delta;
 		if (send >= 50) {
 			send -= 50;
-			player.send();
+			if (player != null)
+				player.send();
 		}
 	}
 
@@ -38,7 +40,8 @@ public class World {
 	 * Render
 	 */
 	public void render() {
-		player.cam();
+		if (player != null)
+			player.cam();
 		GL11.glColor4f(0.2f, 0.8f, 0.4f, 1.0f);
 		GL11.glBegin(GL11.GL_QUADS);
 		GL11.glVertex2f(-5, -5);
@@ -51,7 +54,8 @@ public class World {
 			entity.render();
 			GL11.glPopMatrix();
 		}
-		player.gui();
+		if (player != null)
+			player.gui();
 	}
 
 }
