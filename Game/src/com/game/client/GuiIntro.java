@@ -8,7 +8,7 @@ public class GuiIntro extends Gui {
 
 	@Override
 	public void create() {
-		gc.setGui(new GuiGame(gc, "88.153.74.109", 12345, "Test", "abc123"));
+		gc.setGui(new GuiGame(gc, "127.0.0.1", 12345, "Test", "abc123"));
 	}
 
 	@Override
