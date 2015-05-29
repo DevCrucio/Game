@@ -8,6 +8,7 @@ import com.game.file.Tag;
 import com.game.file.TagString;
 import com.game.file.TagSubtag;
 import com.game.packet.Login;
+import com.game.util.Misc;
 
 public class ServerListener extends Listener {
 	public GameServer gs;
@@ -26,7 +27,8 @@ public class ServerListener extends Listener {
 			TagString pass = (TagString) info.getTag("Password");
 			TagString name = (TagString) info.getTag("Username");
 			if (login.pass.equals(pass.getValue())) {
-				gs.world.login(name.getValue(), con);
+				gs.world.login(name.getValue(), con, user);
+				Misc.log(name.getValue() + " joined the Game.");
 			}
 		}
 	}

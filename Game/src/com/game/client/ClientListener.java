@@ -25,6 +25,9 @@ public class ClientListener extends Listener {
 		if (obj instanceof Accept) {
 			Accept accept = (Accept) obj;
 			gg.login(accept.ID, accept.name);
+			gg.world.player.x = accept.x;
+			gg.world.player.y = accept.y;
+			gg.world.player.lookLeft = accept.lookLeft;
 		}
 		if (obj instanceof PlayerAdd) {
 			PlayerAdd ap = (PlayerAdd) obj;
@@ -32,6 +35,7 @@ public class ClientListener extends Listener {
 			ep.name = ap.name;
 			ep.x = ap.x;
 			ep.y = ap.y;
+			ep.lookLeft = ap.lookLeft;
 			gg.world.entities.put(ap.ID, ep);
 		}
 		if (obj instanceof EntityMove) {
@@ -43,6 +47,7 @@ public class ClientListener extends Listener {
 			entity.lerpY = em.y + em.dy * ping;
 			entity.dx = em.dx;
 			entity.dy = em.dy;
+			entity.lookLeft = em.lookLeft;
 		}
 		if (obj instanceof EntityRem) {
 			EntityRem rem = (EntityRem) obj;

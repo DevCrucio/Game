@@ -29,6 +29,7 @@ public class EntityPlayer extends Entity {
 		em.dx = dx;
 		em.dy = dy;
 		em.ID = ID;
+		em.lookLeft = lookLeft;
 		world.gs.server.sendToAllExceptUDP(con.getID(), em);
 	}
 
