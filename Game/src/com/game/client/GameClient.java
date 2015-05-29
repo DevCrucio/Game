@@ -7,6 +7,8 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
+import com.game.util.Text;
+
 public class GameClient {
 	/*
 	 * Variables
@@ -14,6 +16,7 @@ public class GameClient {
 	private boolean run;
 	private long time;
 	private Gui gui;
+	public Text text;
 
 	/*
 	 * Start Method
@@ -55,6 +58,7 @@ public class GameClient {
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			// Init other Stuff
 			run = true;
+			text = new Text();
 			gui = new GuiIntro(this);
 			gui.create();
 			// First Delta timestamp
