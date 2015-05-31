@@ -8,6 +8,7 @@ import com.game.file.Tag;
 import com.game.file.TagBoolean;
 import com.game.file.TagFloat;
 import com.game.file.TagSubtag;
+import com.game.packet.ChunkAdd;
 import com.game.packet.EntityMove;
 import com.game.packet.EntityRem;
 import com.game.util.Misc;
@@ -22,6 +23,12 @@ public class EntityPlayer extends Entity {
 		this.con = con;
 		con.addListener(new PlayerListener());
 		this.tag = tag;
+
+		ChunkAdd ca = new ChunkAdd();
+		ca.x = 1;
+		ca.y = 1;
+		ca.block = new int[256];
+		con.sendTCP(ca);
 	}
 
 	@Override

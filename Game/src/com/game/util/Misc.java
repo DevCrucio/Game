@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.game.packet.Accept;
+import com.game.packet.ChunkAdd;
 import com.game.packet.EntityMove;
 import com.game.packet.EntityRem;
 import com.game.packet.Login;
@@ -25,7 +26,11 @@ public class Misc {
 	 * Method that registers on Client and Server the same way
 	 */
 	public static void reg(Kryo kryo) {
+		// Array
+		kryo.register(int[].class);
+		// Own Classes
 		kryo.register(Accept.class);
+		kryo.register(ChunkAdd.class);
 		kryo.register(EntityMove.class);
 		kryo.register(EntityRem.class);
 		kryo.register(Login.class);

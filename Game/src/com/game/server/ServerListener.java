@@ -21,14 +21,34 @@ public class ServerListener extends Listener {
 	public void received(Connection con, Object obj) {
 		if (obj instanceof Login) {
 			Login login = (Login) obj;
+			boolean offline = true;
 			File file = new File("./server/" + login.name + ".cgx");
+			if (!file.exists()) {
+				// Account does not exist
+				return;
+			}
 			TagSubtag user = (TagSubtag) Tag.load(file);
 			TagSubtag info = (TagSubtag) user.getTag("CharInfo");
 			TagString pass = (TagString) info.getTag("Password");
 			TagString name = (TagString) info.getTag("Username");
-			if (login.pass.equals(pass.getValue())) {
-				gs.world.login(name.getValue(), con, user);
-				Misc.log(name.getValue() + " joined the Game.");
+			for (Entity entity : gs.world.entities.values()) {
+				if (entity instanceof EntityPlayer) {
+					EntityPlayer ep = (EntityPlayer) entity;
+					if (ep.name.equalsIgnoreCase(name.getValue())) {
+						offline = false;
+						break;
+					}
+				}
+			}
+			if (offline) {
+				if (login.pass.equals(pass.getValue())) {
+					gs.world.login(name.getValue(), con, user);
+					Misc.log(name.getValue() + " joined the Game.");
+				} else {
+					// Password incorrect
+				}
+			} else {
+				// Already Logged In
 			}
 		}
 	}
