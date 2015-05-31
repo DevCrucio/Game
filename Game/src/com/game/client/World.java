@@ -46,11 +46,14 @@ public class World {
 	public void render() {
 		if (player != null)
 			player.cam();
+		gg.store.get("Terrain").bind();
+		GL11.glColor4f(1, 1, 1, 1);
 		for (Chunk chunk : chunks.values()) {
 			GL11.glPushMatrix();
 			chunk.render();
 			GL11.glPopMatrix();
 		}
+		gg.store.get("Terrain").unbind();
 		for (Entity entity : entities.values()) {
 			GL11.glPushMatrix();
 			entity.render();
