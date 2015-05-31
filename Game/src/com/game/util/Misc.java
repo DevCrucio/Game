@@ -6,6 +6,7 @@ import java.util.Date;
 import com.esotericsoftware.kryo.Kryo;
 import com.game.packet.Accept;
 import com.game.packet.ChunkAdd;
+import com.game.packet.ChunkRem;
 import com.game.packet.EntityMove;
 import com.game.packet.EntityRem;
 import com.game.packet.Login;
@@ -31,6 +32,7 @@ public class Misc {
 		// Own Classes
 		kryo.register(Accept.class);
 		kryo.register(ChunkAdd.class);
+		kryo.register(ChunkRem.class);
 		kryo.register(EntityMove.class);
 		kryo.register(EntityRem.class);
 		kryo.register(Login.class);
