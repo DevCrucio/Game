@@ -1,6 +1,8 @@
 package com.game.server;
 
 import java.io.File;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -9,6 +11,7 @@ import com.game.file.TagBoolean;
 import com.game.file.TagFloat;
 import com.game.file.TagSubtag;
 import com.game.packet.ChunkAdd;
+import com.game.packet.ChunkRem;
 import com.game.packet.EntityMove;
 import com.game.packet.EntityRem;
 import com.game.util.Misc;
@@ -17,6 +20,7 @@ public class EntityPlayer extends Entity {
 	public String name;
 	public Connection con;
 	public Tag tag;
+	List<Chunk> chunks = new CopyOnWriteArrayList<Chunk>();
 
 	public EntityPlayer(World world, int ID, Connection con, Tag tag) {
 		super(world, ID);
@@ -24,17 +28,36 @@ public class EntityPlayer extends Entity {
 		con.addListener(new PlayerListener());
 		this.tag = tag;
 
-		ChunkAdd ca = new ChunkAdd();
-		ca.x = 1;
-		ca.y = 1;
-		ca.block = new int[256];
-		con.sendTCP(ca);
 	}
 
 	@Override
 	public void update(float delta) {
-		x += dx * delta;
-		y += dy * delta;
+		int cx = (int) Math.floor(x / 256);
+		int cy = (int) Math.floor(y / 256);
+		// Removing Chunks
+		for (Chunk chunk : chunks) {
+			boolean rem = true;
+			out: for (int ax = cx - 2; ax <= cx + 2; ax++) {
+				for (int ay = cy - 2; ay <= cy + 2; ay++) {
+					if (chunk.x == ax && chunk.y == ay) {
+						rem = false;
+						break out;
+					}
+				}
+			}
+			if (rem) {
+				remChunk(chunk.x, chunk.y);
+			}
+		}
+		// Adding Chunks
+		for (int ax = cx - 2; ax <= cx + 2; ax++) {
+			for (int ay = cy - 2; ay <= cy + 2; ay++) {
+				if (!hasChunk(ax, ay)) {
+					addChunk(ax, ay);
+				}
+			}
+		}
+
 	}
 
 	@Override
@@ -79,6 +102,39 @@ public class EntityPlayer extends Entity {
 			tlookLeft.setValue(lookLeft);
 			Tag.save(tag, new File(tag.getName()));
 			Misc.log(name + " disconnected.");
+		}
+	}
+
+	// Chunk methods
+	public boolean hasChunk(int x, int y) {
+		for (Chunk chunk : chunks) {
+			if (chunk.x == x && chunk.y == y) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void addChunk(int x, int y) {
+		Chunk chunk = world.getChunk(x, y);
+		ChunkAdd ca = new ChunkAdd();
+		ca.x = chunk.x;
+		ca.y = chunk.y;
+		ca.block = chunk.block;
+		chunks.add(chunk);
+		con.sendTCP(ca);
+	}
+
+	public void remChunk(int x, int y) {
+		for (Chunk chunk : chunks) {
+			if (chunk.x == x && chunk.y == y) {
+				ChunkRem cr = new ChunkRem();
+				cr.x = x;
+				cr.y = y;
+				con.sendTCP(cr);
+				chunks.remove(chunk);
+				return;
+			}
 		}
 	}
 }

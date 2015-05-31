@@ -1,6 +1,8 @@
 package com.game.server;
 
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.game.file.Tag;
@@ -33,7 +35,7 @@ public class World {
 	 * Login
 	 */
 	public void login(String name, Connection con, Tag tag) {
-		// TODO load Coordinates from File
+		// load Coordinates from File
 		TagSubtag user = (TagSubtag) tag;
 		float vx, vy;
 		boolean vlookleft;
@@ -122,5 +124,74 @@ public class World {
 				entity.send();
 			}
 		}
+		// Chunk unload
+		for (Chunk chunk : chunks) {
+			boolean active = false;
+			for (Entity entity : entities.values()) {
+				if (entity instanceof EntityPlayer) {
+					EntityPlayer ep = (EntityPlayer) entity;
+					if (ep.hasChunk(chunk.x, chunk.y)) {
+						active = true;
+					}
+				}
+			}
+			if (!active) {
+				int rx = (int) Math.floor(chunk.x / 32f);
+				int ry = (int) Math.floor(chunk.y / 32f);
+				for (Region reg : regions) {
+					if (reg.x == rx && reg.y == ry) {
+						reg.setChunk(chunk);
+						chunks.remove(chunk);
+					}
+				}
+			}
+		}
+		// Region unload
+		for (Region reg : regions) {
+			reg.isActive(this);
+		}
+	}
+
+	/*
+	 * Region
+	 * Chunk
+	 */
+	List<Region> regions = new CopyOnWriteArrayList<Region>();
+	List<Chunk> chunks = new CopyOnWriteArrayList<Chunk>();
+
+	// Chunk System
+	public Chunk getChunk(int x, int y) {
+		int rx = (int) Math.floor(x / 32f);
+		int ry = (int) Math.floor(y / 32f);
+		Region region = null;
+		Chunk chunk = null;
+		// Region active
+		boolean active = false;
+		for (Region reg : regions) {
+			if (reg.x == rx && reg.y == ry) {
+				active = true;
+				region = reg;
+				break;
+			}
+		}
+		if (!active) {
+			// Load Region
+			regions.add(region = Region.load(rx, ry));
+		}
+		// Chunk active
+		active = false;
+		for (Chunk chu : chunks) {
+			if (chu.x == x && chu.y == y) {
+				active = true;
+				chunk = chu;
+				break;
+			}
+		}
+		if (!active) {
+			// Load Chunk
+			chunks.add(chunk = region.getChunk(x, y));
+		}
+		// Load Chunk
+		return chunk;
 	}
 }
