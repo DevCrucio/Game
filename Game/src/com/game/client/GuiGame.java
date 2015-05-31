@@ -5,12 +5,15 @@ import java.io.IOException;
 import com.esotericsoftware.kryonet.Client;
 import com.game.packet.Login;
 import com.game.util.Misc;
+import com.game.util.Texture;
+import com.game.util.TextureStore;
 
 public class GuiGame extends Gui {
 
 	public World world;
 	public Client client;
 	public String pass, name;
+	public TextureStore store;
 
 	public GuiGame(GameClient gc, String ip, int port, String name, String pass) {
 		super(gc);
@@ -54,6 +57,21 @@ public class GuiGame extends Gui {
 	public void render() {
 		if (world != null)
 			world.render();
+	}
+
+	@Override
+	public void create() {
+		store = new TextureStore();
+		try {
+			store.put("Terrain", new Texture("./src/Terrain.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void destroy() {
+		store.rem("Terrain").destroy();
 	}
 
 }

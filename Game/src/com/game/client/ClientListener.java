@@ -3,6 +3,7 @@ package com.game.client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.game.packet.Accept;
+import com.game.packet.ChunkAdd;
 import com.game.packet.EntityMove;
 import com.game.packet.EntityRem;
 import com.game.packet.PlayerAdd;
@@ -28,8 +29,7 @@ public class ClientListener extends Listener {
 			gg.world.player.x = accept.x;
 			gg.world.player.y = accept.y;
 			gg.world.player.lookLeft = accept.lookLeft;
-		}
-		if (obj instanceof PlayerAdd) {
+		} else if (obj instanceof PlayerAdd) {
 			PlayerAdd ap = (PlayerAdd) obj;
 			EntityPlayer ep = new EntityPlayer(gg.world, ap.ID);
 			ep.name = ap.name;
@@ -37,8 +37,7 @@ public class ClientListener extends Listener {
 			ep.y = ap.y;
 			ep.lookLeft = ap.lookLeft;
 			gg.world.entities.put(ap.ID, ep);
-		}
-		if (obj instanceof EntityMove) {
+		} else if (obj instanceof EntityMove) {
 			EntityMove em = (EntityMove) obj;
 			Entity entity = gg.world.entities.get(em.ID);
 			con.updateReturnTripTime();
@@ -48,11 +47,15 @@ public class ClientListener extends Listener {
 			entity.dx = em.dx;
 			entity.dy = em.dy;
 			entity.lookLeft = em.lookLeft;
-		}
-		if (obj instanceof EntityRem) {
+		} else if (obj instanceof EntityRem) {
 			EntityRem rem = (EntityRem) obj;
 			gg.world.entities.remove(rem.ID);
+		} else if (obj instanceof ChunkAdd) {
+			ChunkAdd ca = (ChunkAdd) obj;
+			Chunk chunk = new Chunk(ca.x, ca.y, ca.block);
+			gg.world.chunks.put(ca.x + "x" + ca.y, chunk);
 		}
+
 	}
 
 }
