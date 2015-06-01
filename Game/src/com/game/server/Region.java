@@ -30,11 +30,7 @@ public class Region {
 			}
 		} else {
 			// Generate :O
-			for (int ix = 0; ix < 16; ix++) {
-				for (int iy = 0; iy < 16; iy++) {
-					chunk.setBlock(ix, iy, (int) Math.floor(Math.random() * 4));
-				}
-			}
+			World.generator.generate(chunk);
 		}
 		return chunk;
 	}

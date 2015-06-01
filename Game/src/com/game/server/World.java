@@ -17,9 +17,11 @@ public class World {
 	 * Constructor
 	 */
 	public GameServer gs;
+	public static MapGen generator;
 
 	public World(GameServer gs) {
 		this.gs = gs;
+		generator = new MapGen(1);
 	}
 
 	/*
@@ -52,7 +54,7 @@ public class World {
 			TagFloat x = new TagFloat("X");
 			x.setValue(0.0f);
 			TagFloat y = new TagFloat("Y");
-			y.setValue(0.0f);
+			y.setValue(200.0f);
 			TagBoolean lookLeft = new TagBoolean("LookLeft");
 			lookLeft.setValue(true);
 			loc.addTag(x);
