@@ -1,17 +1,25 @@
 package com.game.client;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.lwjgl.opengl.GL11;
+
+import com.game.util.Box;
 
 public class Chunk {
 	public int x, y;
 	public int[] block; // 16x16
 	public boolean gen;
+	public Box col;
+	public List<Box> blocks = new ArrayList<Box>();
 
 	public Chunk(int x, int y, int[] block) {
 		this.x = x;
 		this.y = y;
 		this.block = block;
 		gen = true;
+		col = new Box(x * 256 + 128, y * 256 + 128, 128, 128);
 	}
 
 	public void setBlock(int x, int y, int id) {
@@ -84,10 +92,41 @@ public class Chunk {
 	public void gen() {
 		gen = false;
 		// TODO generate mesh
+		// Generate Collision
+		blocks.clear();
+		for (int x = 0; x < 16; x++) {
+			for (int y = 0; y < 16; y++) {
+				if (getBlock(x, y) != 0) {
+					blocks.add(new Box(this.x * 256 + 8 + (16 * x), this.y
+							* 256 + 8 + (16 * y), 8, 8));
+				}
+			}
+		}
+
 	}
 
 	// Destroy model
 	public void destroy() {
 
+	}
+
+	// Collision check
+	public Box check(Box box) {
+		if (box.check(col)) {
+			for (Box hit : blocks) {
+				if (box.check(hit)) {
+					return hit;
+				}
+			}
+		}
+		return null;
+	}
+
+	// Box Render
+	public void hitBox() {
+		col.renderHitBox();
+		for (Box box : blocks) {
+			box.renderHitBox();
+		}
 	}
 }

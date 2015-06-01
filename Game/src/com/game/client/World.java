@@ -4,6 +4,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.lwjgl.opengl.GL11;
 
+import com.game.util.Box;
+
 public class World {
 	public GuiGame gg;
 
@@ -54,6 +56,10 @@ public class World {
 			GL11.glPopMatrix();
 		}
 		gg.store.get("Terrain").unbind();
+		//		GL11.glColor4f(0.8f, 0.2f, 0.2f, 1.0f);
+		//		for (Chunk chunk : chunks.values()) {
+		//			chunk.hitBox();
+		//		}
 		for (Entity entity : entities.values()) {
 			GL11.glPushMatrix();
 			entity.render();
@@ -61,6 +67,19 @@ public class World {
 		}
 		if (player != null)
 			player.gui();
+	}
+
+	/*
+	 * Collision Check
+	 */
+	public Box check(Box box) {
+		for (Chunk chunk : chunks.values()) {
+			Box hit = chunk.check(box);
+			if (hit != null) {
+				return hit;
+			}
+		}
+		return null;
 	}
 
 }
