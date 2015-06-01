@@ -13,7 +13,7 @@ public class EntityOwn extends Entity {
 
 	public EntityOwn(World world, int ID) {
 		super(world, ID);
-		box = new Box(x, y, 9, 18);
+		box = new Box(x, y, 10, 18);
 		ground = new Box(x, y - box.getDy() - 1, 5, 1);
 	}
 
@@ -27,8 +27,10 @@ public class EntityOwn extends Entity {
 		// LEFT RIGHT
 		if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
 			dx = .1f;
+			lookLeft = false;
 		} else if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
 			dx = -.1f;
+			lookLeft = true;
 		} else {
 			dx = 0;
 		}
@@ -97,7 +99,9 @@ public class EntityOwn extends Entity {
 	public void render() {
 		// Base Quad Rendering
 		this.world.gg.store.get("Char").bind();
-		GL11.glTranslatef(x - 1, y - 2, 0);
+		GL11.glTranslatef(x, y - 2, 0);
+		if (!lookLeft)
+			GL11.glScalef(-1, 1, 1);
 		// Foot Back
 		GL11.glPushMatrix();
 		GL11.glTranslatef(-6, -12, 0);
@@ -219,8 +223,10 @@ public class EntityOwn extends Entity {
 		GL11.glEnd();
 		GL11.glPopMatrix();
 		// Text Rendering
+		if (!lookLeft)
+			GL11.glScalef(-1, 1, 1);
 		GL11.glColor3f(0.4f, 1.0f, 0.4f);
-		GL11.glTranslatef(0, 10, 0);
+		GL11.glTranslatef(0, 32, 0);
 		this.world.gg.gc.text.draw(name, 0.5f, Text.ALIGN.CENTER);
 	}
 
@@ -233,6 +239,7 @@ public class EntityOwn extends Entity {
 		em.y = y;
 		em.dx = dx;
 		em.dy = dy;
+		em.lookLeft = lookLeft;
 		world.gg.client.sendUDP(em);
 	}
 }

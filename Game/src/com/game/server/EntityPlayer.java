@@ -83,6 +83,7 @@ public class EntityPlayer extends Entity {
 				y = em.y + em.dy * ping;
 				dx = em.dx;
 				dy = em.dy;
+				lookLeft = em.lookLeft;
 			}
 		}
 
