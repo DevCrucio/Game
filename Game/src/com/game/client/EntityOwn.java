@@ -13,7 +13,7 @@ public class EntityOwn extends Entity {
 
 	public EntityOwn(World world, int ID) {
 		super(world, ID);
-		box = new Box(x, y, 5, 5);
+		box = new Box(x, y, 9, 18);
 		ground = new Box(x, y - box.getDy() - 1, 5, 1);
 	}
 
@@ -96,14 +96,128 @@ public class EntityOwn extends Entity {
 	@Override
 	public void render() {
 		// Base Quad Rendering
-		GL11.glTranslatef(x, y, 0);
-		GL11.glColor4f(0.8f, 0.4f, 0.2f, 1.0f);
+		this.world.gg.store.get("Char").bind();
+		GL11.glTranslatef(x - 1, y - 2, 0);
+		// Foot Back
+		GL11.glPushMatrix();
+		GL11.glTranslatef(-6, -12, 0);
 		GL11.glBegin(GL11.GL_QUADS);
-		GL11.glVertex2f(-5, -5);
-		GL11.glVertex2f(5, -5);
-		GL11.glVertex2f(5, 5);
-		GL11.glVertex2f(-5, 5);
+		GL11.glColor4f(1, 1, 1, 1);
+		GL11.glTexCoord2f(2f / 4f, 1f / 4f);
+		GL11.glVertex2f(-16, -16);
+		GL11.glTexCoord2f(3f / 4f, 1f / 4f);
+		GL11.glVertex2f(16, -16);
+		GL11.glTexCoord2f(3f / 4f, 0f / 4f);
+		GL11.glVertex2f(16, 16);
+		GL11.glTexCoord2f(2f / 4f, 0f / 4f);
+		GL11.glVertex2f(-16, 16);
+		GL11.glColor4f(1, 0, 0, 1);
+		GL11.glTexCoord2f(2f / 4f, 2f / 4f);
+		GL11.glVertex2f(-16, -16);
+		GL11.glTexCoord2f(3f / 4f, 2f / 4f);
+		GL11.glVertex2f(16, -16);
+		GL11.glTexCoord2f(3f / 4f, 1f / 4f);
+		GL11.glVertex2f(16, 16);
+		GL11.glTexCoord2f(2f / 4f, 1f / 4f);
+		GL11.glVertex2f(-16, 16);
 		GL11.glEnd();
+		GL11.glPopMatrix();
+		// Foot Front
+		GL11.glPushMatrix();
+		GL11.glTranslatef(4, -12, 0);
+		GL11.glBegin(GL11.GL_QUADS);
+		GL11.glColor4f(1, 1, 1, 1);
+		GL11.glTexCoord2f(2f / 4f, 1f / 4f);
+		GL11.glVertex2f(-16, -16);
+		GL11.glTexCoord2f(3f / 4f, 1f / 4f);
+		GL11.glVertex2f(16, -16);
+		GL11.glTexCoord2f(3f / 4f, 0f / 4f);
+		GL11.glVertex2f(16, 16);
+		GL11.glTexCoord2f(2f / 4f, 0f / 4f);
+		GL11.glVertex2f(-16, 16);
+		GL11.glColor4f(1, 0, 0, 1);
+		GL11.glTexCoord2f(2f / 4f, 2f / 4f);
+		GL11.glVertex2f(-16, -16);
+		GL11.glTexCoord2f(3f / 4f, 2f / 4f);
+		GL11.glVertex2f(16, -16);
+		GL11.glTexCoord2f(3f / 4f, 1f / 4f);
+		GL11.glVertex2f(16, 16);
+		GL11.glTexCoord2f(2f / 4f, 1f / 4f);
+		GL11.glVertex2f(-16, 16);
+		GL11.glEnd();
+		GL11.glPopMatrix();
+		// Body
+		GL11.glPushMatrix();
+		GL11.glTranslatef(0, 0, 0);
+		GL11.glBegin(GL11.GL_QUADS);
+		GL11.glColor4f(1, 1, 1, 1);
+		GL11.glTexCoord2f(1f / 4f, 1f / 4f);
+		GL11.glVertex2f(-16, -16);
+		GL11.glTexCoord2f(2f / 4f, 1f / 4f);
+		GL11.glVertex2f(16, -16);
+		GL11.glTexCoord2f(2f / 4f, 0f / 4f);
+		GL11.glVertex2f(16, 16);
+		GL11.glTexCoord2f(1f / 4f, 0f / 4f);
+		GL11.glVertex2f(-16, 16);
+		GL11.glColor4f(1, 0, 0, 1);
+		GL11.glTexCoord2f(1f / 4f, 2f / 4f);
+		GL11.glVertex2f(-16, -16);
+		GL11.glTexCoord2f(2f / 4f, 2f / 4f);
+		GL11.glVertex2f(16, -16);
+		GL11.glTexCoord2f(2f / 4f, 1f / 4f);
+		GL11.glVertex2f(16, 16);
+		GL11.glTexCoord2f(1f / 4f, 1f / 4f);
+		GL11.glVertex2f(-16, 16);
+		GL11.glEnd();
+		GL11.glPopMatrix();
+		// Head
+		GL11.glPushMatrix();
+		GL11.glTranslatef(-2, 8, 0);
+		GL11.glBegin(GL11.GL_QUADS);
+		GL11.glColor4f(1, 1, 1, 1);
+		GL11.glTexCoord2f(0f / 4f, 1f / 4f);
+		GL11.glVertex2f(-16, -16);
+		GL11.glTexCoord2f(1f / 4f, 1f / 4f);
+		GL11.glVertex2f(16, -16);
+		GL11.glTexCoord2f(1f / 4f, 0f / 4f);
+		GL11.glVertex2f(16, 16);
+		GL11.glTexCoord2f(0f / 4f, 0f / 4f);
+		GL11.glVertex2f(-16, 16);
+		GL11.glColor4f(1, 0, 0, 1);
+		GL11.glTexCoord2f(0f / 4f, 2f / 4f);
+		GL11.glVertex2f(-16, -16);
+		GL11.glTexCoord2f(1f / 4f, 2f / 4f);
+		GL11.glVertex2f(16, -16);
+		GL11.glTexCoord2f(1f / 4f, 1f / 4f);
+		GL11.glVertex2f(16, 16);
+		GL11.glTexCoord2f(0f / 4f, 1f / 4f);
+		GL11.glVertex2f(-16, 16);
+		GL11.glEnd();
+		GL11.glPopMatrix();
+		// Hair
+		GL11.glPushMatrix();
+		GL11.glTranslatef(-2, 8, 0);
+		GL11.glBegin(GL11.GL_QUADS);
+		GL11.glColor4f(1, 1, 1, 1);
+		GL11.glTexCoord2f(0f / 4f, 3f / 4f);
+		GL11.glVertex2f(-16, -16);
+		GL11.glTexCoord2f(1f / 4f, 3f / 4f);
+		GL11.glVertex2f(16, -16);
+		GL11.glTexCoord2f(1f / 4f, 2f / 4f);
+		GL11.glVertex2f(16, 16);
+		GL11.glTexCoord2f(0f / 4f, 2f / 4f);
+		GL11.glVertex2f(-16, 16);
+		GL11.glColor4f(1, 0, 0, 1);
+		GL11.glTexCoord2f(0f / 4f, 4f / 4f);
+		GL11.glVertex2f(-16, -16);
+		GL11.glTexCoord2f(1f / 4f, 4f / 4f);
+		GL11.glVertex2f(16, -16);
+		GL11.glTexCoord2f(1f / 4f, 3f / 4f);
+		GL11.glVertex2f(16, 16);
+		GL11.glTexCoord2f(0f / 4f, 3f / 4f);
+		GL11.glVertex2f(-16, 16);
+		GL11.glEnd();
+		GL11.glPopMatrix();
 		// Text Rendering
 		GL11.glColor3f(0.4f, 1.0f, 0.4f);
 		GL11.glTranslatef(0, 10, 0);
