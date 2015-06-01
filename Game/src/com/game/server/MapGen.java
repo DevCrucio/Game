@@ -10,7 +10,6 @@ import com.game.noise.Noise;
 
 public class MapGen {
 	// Base Variables
-	private int seed;
 	private TagSubtag tag;
 
 	// Load and Save stuff
@@ -21,7 +20,6 @@ public class MapGen {
 			TagInt sTag = (TagInt) tag.getTag("seed");
 			seed = sTag.getValue();
 		} else {
-			this.seed = seed;
 			tag = new TagSubtag("Data");
 			TagInt sTag = new TagInt("seed");
 			sTag.setValue(seed);
