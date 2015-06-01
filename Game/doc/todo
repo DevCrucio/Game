@@ -1,7 +1,4 @@
-Implement Chunk System (Server side) with Save/Load
-Implement Chunk rendering (Client side)
-Implement Collision detection
-Implement Noise generation (Server side)
-Implement Sidescroll physics
 Implement Inventory System
 Implement Block Break/Place
+
+Edit: 
