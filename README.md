@@ -8,6 +8,12 @@ It will be a Sandbox Platformer (like Terraria and Starbound) with a gameplay mo
 -Chunk System (Saved and generated Serverside)</br>
 
 ### Todo
--Map Generation (Currently Math.random()...)</br>
 -Inventory System</br>
--Sidescroll physics</br>
+-Block Place and Break</br>
+
+### Idea
+-No Air to breathe on the World</br>
+-Start with Air for 1 Minute in oxygen mask</br>
+-Air can be reloaded in Air Compressor</br>
+-Rooms can be filled with Air by Air Valve</br>
+-Need energy to Generate Air</br>
