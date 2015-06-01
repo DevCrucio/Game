@@ -76,7 +76,8 @@ public class GameClient {
 		while (run) {
 			// Update
 			float delta = getDelta();
-			gui.update(delta);
+			if (delta <= 100)
+				gui.update(delta);
 			// Clear Screen
 			GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT | GL11.GL_COLOR_BUFFER_BIT
 					| GL11.GL_STENCIL_BUFFER_BIT);
