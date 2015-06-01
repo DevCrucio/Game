@@ -17,7 +17,7 @@ public class EntityPlayer extends Entity {
 		float lerp = 0.2f;
 		// Lerp X
 		x = x + ((lerpX - x) * lerp);
-		y = y + ((lerpY - y) * lerp);
+		y = y + ((lerpY - y) * lerp * 2.5f);
 
 	}
 
