@@ -204,11 +204,13 @@ public class EntityPlayer extends Entity {
 		GL11.glVertex2f(-16, 16);
 		GL11.glEnd();
 		GL11.glPopMatrix();
+	}
+
+	@Override
+	public void renderName() {
 		// Text Rendering
-		if (!lookLeft)
-			GL11.glScalef(-1, 1, 1);
 		GL11.glColor3f(0.2f, 1.0f, 1.0f);
-		GL11.glTranslatef(0, 32, 0);
+		GL11.glTranslatef(x, y + 30, 0);
 		this.world.gg.gc.text.draw(name, 0.5f, Text.ALIGN.CENTER);
 	}
 

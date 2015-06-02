@@ -3,15 +3,19 @@ package com.game.client;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import com.game.item.Inventory;
 import com.game.packet.Color;
 import com.game.packet.EntityMove;
 import com.game.util.Box;
 import com.game.util.Text;
+import com.game.util.Text.ALIGN;
 
 public class EntityOwn extends Entity {
 	public String name;
 	public Box box, ground;
 	public Color hair, body, arm, shoe;
+	public gState state;
+	public Inventory inv;
 
 	public EntityOwn(World world, int ID) {
 		super(world, ID);
@@ -21,39 +25,17 @@ public class EntityOwn extends Entity {
 		body = new Color();
 		arm = new Color();
 		shoe = new Color();
-	}
-
-	public void poll(float delta) {
-		// JUMP
-		if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-			if (world.check(ground) != null && dy <= 0) {
-				dy = .2f;
-			}
-		}
-		// LEFT RIGHT
-		if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-			dx = .1f;
-			lookLeft = false;
-		} else if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-			dx = -.1f;
-			lookLeft = true;
-		} else {
-			dx = 0;
-		}
-		// Speed
+		state = gState.game;
+		inv = new Inventory();
 	}
 
 	public void cam() {
 		GL11.glTranslatef(480 - x, 270 - y, 0);
 	}
 
-	public void gui() {
-
-	}
-
 	@Override
 	public void update(float delta) {
-		// TODO: Collision Detection
+		// Collision Detection
 		x += dx * delta;
 		updateBox();
 		Box check = world.check(box);
@@ -278,11 +260,13 @@ public class EntityOwn extends Entity {
 		GL11.glVertex2f(-16, 16);
 		GL11.glEnd();
 		GL11.glPopMatrix();
+	}
+
+	@Override
+	public void renderName() {
 		// Text Rendering
-		if (!lookLeft)
-			GL11.glScalef(-1, 1, 1);
 		GL11.glColor3f(0.4f, 1.0f, 0.4f);
-		GL11.glTranslatef(0, 32, 0);
+		GL11.glTranslatef(x, y + 30, 0);
 		this.world.gg.gc.text.draw(name, 0.5f, Text.ALIGN.CENTER);
 	}
 
@@ -297,5 +281,129 @@ public class EntityOwn extends Entity {
 		em.dy = dy;
 		em.lookLeft = lookLeft;
 		world.gg.client.sendUDP(em);
+	}
+
+	// Update 
+	public void poll(float delta) {
+		switch (state) {
+		case game:
+			// JUMP
+			if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
+				if (world.check(ground) != null && dy <= 0) {
+					dy = .4f;
+				}
+			}
+			// LEFT RIGHT
+			if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
+				dx = .2f;
+				lookLeft = false;
+			} else if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
+				dx = -.2f;
+				lookLeft = true;
+			} else {
+				dx = 0;
+			}
+			while (Keyboard.next()) {
+				if (Keyboard.getEventKeyState()) {// pressed
+					if (Keyboard.getEventKey() == Keyboard.KEY_E) {
+						dx = 0;
+						state = gState.inventory;
+					}
+					if (Keyboard.getEventKey() == Keyboard.KEY_ESCAPE) {
+						dx = 0;
+						state = gState.menu;
+					}
+				}
+			}
+			break;
+		case inventory:
+			while (Keyboard.next()) {
+				if (Keyboard.getEventKeyState()) {// pressed
+					if (Keyboard.getEventKey() == Keyboard.KEY_E) {
+						state = gState.game;
+					}
+					if (Keyboard.getEventKey() == Keyboard.KEY_ESCAPE) {
+						state = gState.menu;
+					}
+				}
+			}
+			break;
+		case menu:
+			while (Keyboard.next()) {
+				if (Keyboard.getEventKeyState()) {// pressed
+					if (Keyboard.getEventKey() == Keyboard.KEY_ESCAPE) {
+						state = gState.game;
+					}
+				}
+			}
+			break;
+		}
+	}
+
+	// Gui Render
+
+	public void gui() {
+		GL11.glColor3f(1, 1, 1);
+		switch (state) {
+		case game:
+			world.gg.gc.text.draw("Game", 1f, ALIGN.LEFT);
+			break;
+		case inventory:
+			world.gg.store.get("Inv").bind();
+			GL11.glPushMatrix();
+			GL11.glTranslatef(960 / 2, 540 / 2, 0);
+			//			GL11.glScalef(2, 2, 1);
+			GL11.glBegin(GL11.GL_QUADS);
+			GL11.glTexCoord2f(1, 0);
+			GL11.glVertex2f(152, 112);
+			GL11.glTexCoord2f(0, 0);
+			GL11.glVertex2f(-152, 112);
+			GL11.glTexCoord2f(0, 1);
+			GL11.glVertex2f(-152, -112);
+			GL11.glTexCoord2f(1, 1);
+			GL11.glVertex2f(152, -112);
+			GL11.glEnd();
+			GL11.glPopMatrix();
+			GL11.glPushMatrix();
+			// Player
+			GL11.glTranslatef(960 / 2 - 48, 540 / 2 - 24, 0);
+			GL11.glScalef(2, 2, 1);
+			if (lookLeft)
+				GL11.glScalef(-1, 1, 1);
+			GL11.glTranslatef(-x, -y + 2, 0);
+			render();
+			GL11.glPopMatrix();
+			GL11.glPushMatrix();
+			// Inventory
+			GL11.glColor3f(50f / 255f, 50f / 255f, 50f / 255f);
+			GL11.glTranslatef(960 / 2 - 48, 540 / 2 + 64, 0);
+			world.gg.gc.text.draw("Inventory", 1, ALIGN.CENTER);
+			GL11.glPopMatrix();
+			for (int x = 0; x < 2; x++) {
+				for (int y = 0; y < 4; y++) {
+					GL11.glPushMatrix();
+					GL11.glTranslatef(544 + x * 48, 342 - y * 48, 0);
+					inv.drawItem(x + y * 2);
+					GL11.glPopMatrix();
+				}
+			}
+			for (int x = 0; x < 2; x++) {
+				for (int y = 0; y < 3; y++) {
+					GL11.glPushMatrix();
+					GL11.glTranslatef(368 + x * 122, 294 - y * 48, 0);
+					inv.drawItem(8 + x + y * 2);
+					GL11.glPopMatrix();
+				}
+			}
+			break;
+		case menu:
+			world.gg.gc.text.draw("Menu", 1f, ALIGN.LEFT);
+			break;
+		}
+	}
+
+	// Gui State
+	private enum gState {
+		game, inventory, menu;
 	}
 }
