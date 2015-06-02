@@ -85,6 +85,10 @@ public class GameClient {
 			GL11.glPushMatrix();
 			gui.render();
 			GL11.glPopMatrix();
+			while (Mouse.next()) {
+			}
+			while (Keyboard.next()) {
+			} // Clear Buffers
 			// Show on Screen
 			Display.update();
 			// Cap FPS
