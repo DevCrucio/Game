@@ -15,4 +15,8 @@ public abstract class Entity {
 	public abstract void update(float delta);
 
 	public abstract void render();
+
+	public void renderName() {
+
+	}
 }
