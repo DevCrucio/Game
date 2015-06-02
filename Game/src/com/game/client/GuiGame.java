@@ -65,6 +65,8 @@ public class GuiGame extends Gui {
 		try {
 			store.put("Terrain", new Texture("./src/Terrain.png"));
 			store.put("Char", new Texture("./src/Char.png"));
+			store.put("Gui", new Texture("./src/Gui.png"));
+			store.put("Inv", new Texture("./src/Inv.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -74,6 +76,8 @@ public class GuiGame extends Gui {
 	public void destroy() {
 		store.rem("Terrain").destroy();
 		store.rem("Char").destroy();
+		store.rem("Gui").destroy();
+		store.rem("Inv").destroy();
 	}
 
 }
