@@ -5,4 +5,5 @@ public class Accept {
 	public int ID;
 	public float x, y;
 	public boolean lookLeft;
+	public Color hair, arm, body, shoe;
 }
