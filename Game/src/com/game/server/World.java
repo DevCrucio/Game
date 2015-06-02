@@ -95,51 +95,51 @@ public class World {
 			// Hair
 			TagSubtag hair = new TagSubtag("Hair");
 			TagFloat red = new TagFloat("Red");
-			red.setValue(0.2f);
+			red.setValue((float) Math.random());
 			TagFloat green = new TagFloat("Green");
-			red.setValue(0.3f);
+			red.setValue((float) Math.random());
 			TagFloat blue = new TagFloat("Blue");
-			red.setValue(0.8f);
+			red.setValue((float) Math.random());
 			hair.addTag(red);
 			hair.addTag(green);
 			hair.addTag(blue);
-			cHair.set(0.2f, 0.3f, 0.8f);
+			cHair.set(red.getValue(), green.getValue(), blue.getValue());
 			// Body
 			TagSubtag body = new TagSubtag("Body");
 			red = new TagFloat("Red");
-			red.setValue(0.6f);
+			red.setValue((float) Math.random());
 			green = new TagFloat("Green");
-			green.setValue(0.3f);
+			green.setValue((float) Math.random());
 			blue = new TagFloat("Blue");
-			blue.setValue(0.2f);
+			blue.setValue((float) Math.random());
 			body.addTag(red);
 			body.addTag(green);
 			body.addTag(blue);
-			cBody.set(0.6f, 0.3f, 0.2f);
+			cBody.set(red.getValue(), green.getValue(), blue.getValue());
 			// Arm
 			TagSubtag arm = new TagSubtag("Arm");
 			red = new TagFloat("Red");
-			red.setValue(0.6f);
+			red.setValue((float) Math.random());
 			green = new TagFloat("Green");
-			green.setValue(0.3f);
+			green.setValue((float) Math.random());
 			blue = new TagFloat("Blue");
-			blue.setValue(0.2f);
+			blue.setValue((float) Math.random());
 			arm.addTag(red);
 			arm.addTag(green);
 			arm.addTag(blue);
-			cArm.set(0.6f, 0.3f, 0.2f);
+			cArm.set(red.getValue(), green.getValue(), blue.getValue());
 			// Shoe
 			TagSubtag shoe = new TagSubtag("Shoe");
 			red = new TagFloat("Red");
-			red.setValue(0.4f);
+			red.setValue((float) Math.random());
 			green = new TagFloat("Green");
-			green.setValue(0.3f);
+			green.setValue((float) Math.random());
 			blue = new TagFloat("Blue");
-			blue.setValue(0.1f);
+			blue.setValue((float) Math.random());
 			shoe.addTag(red);
 			shoe.addTag(green);
 			shoe.addTag(blue);
-			cShoe.set(0.6f, 0.3f, 0.2f);
+			cShoe.set(red.getValue(), green.getValue(), blue.getValue());
 			// Append
 			color.addTag(hair);
 			color.addTag(body);
