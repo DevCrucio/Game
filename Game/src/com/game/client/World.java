@@ -46,6 +46,7 @@ public class World {
 	 * Render
 	 */
 	public void render() {
+		GL11.glPushMatrix();
 		if (player != null)
 			player.cam();
 		gg.store.get("Terrain").bind();
@@ -65,6 +66,12 @@ public class World {
 			entity.render();
 			GL11.glPopMatrix();
 		}
+		for (Entity entity : entities.values()) {
+			GL11.glPushMatrix();
+			entity.renderName();
+			GL11.glPopMatrix();
+		}
+		GL11.glPopMatrix();
 		if (player != null)
 			player.gui();
 	}
