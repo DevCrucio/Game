@@ -12,6 +12,7 @@ import com.game.file.TagFloat;
 import com.game.file.TagSubtag;
 import com.game.packet.ChunkAdd;
 import com.game.packet.ChunkRem;
+import com.game.packet.Color;
 import com.game.packet.EntityMove;
 import com.game.packet.EntityRem;
 import com.game.util.Misc;
@@ -21,6 +22,7 @@ public class EntityPlayer extends Entity {
 	public Connection con;
 	public Tag tag;
 	List<Chunk> chunks = new CopyOnWriteArrayList<Chunk>();
+	public Color hair, arm, body, shoe;
 
 	public EntityPlayer(World world, int ID, Connection con, Tag tag) {
 		super(world, ID);

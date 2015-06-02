@@ -10,6 +10,7 @@ import com.game.file.TagBoolean;
 import com.game.file.TagFloat;
 import com.game.file.TagSubtag;
 import com.game.packet.Accept;
+import com.game.packet.Color;
 import com.game.packet.PlayerAdd;
 
 public class World {
@@ -65,6 +66,87 @@ public class World {
 			vy = 0;
 			vlookleft = true;
 		}
+		// Load Color from file
+		Color cHair = new Color(), cBody = new Color(), cArm = new Color(), cShoe = new Color();
+		if (user.hasTag("Color")) {
+			TagSubtag color = (TagSubtag) user.getTag("Color");
+			// Hair
+			TagSubtag hair = (TagSubtag) color.getTag("Hair");
+			cHair.set(((TagFloat) hair.getTag("Red")).getValue(),
+					((TagFloat) hair.getTag("Green")).getValue(),
+					((TagFloat) hair.getTag("Blue")).getValue());
+			// Body
+			TagSubtag body = (TagSubtag) color.getTag("Body");
+			cBody.set(((TagFloat) body.getTag("Red")).getValue(),
+					((TagFloat) body.getTag("Green")).getValue(),
+					((TagFloat) body.getTag("Blue")).getValue());
+			// Arm
+			TagSubtag arm = (TagSubtag) color.getTag("Arm");
+			cArm.set(((TagFloat) arm.getTag("Red")).getValue(),
+					((TagFloat) arm.getTag("Green")).getValue(),
+					((TagFloat) arm.getTag("Blue")).getValue());
+			// Shoe
+			TagSubtag shoe = (TagSubtag) color.getTag("Shoe");
+			cShoe.set(((TagFloat) shoe.getTag("Red")).getValue(),
+					((TagFloat) shoe.getTag("Green")).getValue(),
+					((TagFloat) shoe.getTag("Blue")).getValue());
+		} else {
+			TagSubtag color = new TagSubtag("Color");
+			// Hair
+			TagSubtag hair = new TagSubtag("Hair");
+			TagFloat red = new TagFloat("Red");
+			red.setValue(0.2f);
+			TagFloat green = new TagFloat("Green");
+			red.setValue(0.3f);
+			TagFloat blue = new TagFloat("Blue");
+			red.setValue(0.8f);
+			hair.addTag(red);
+			hair.addTag(green);
+			hair.addTag(blue);
+			cHair.set(0.2f, 0.3f, 0.8f);
+			// Body
+			TagSubtag body = new TagSubtag("Body");
+			red = new TagFloat("Red");
+			red.setValue(0.6f);
+			green = new TagFloat("Green");
+			green.setValue(0.3f);
+			blue = new TagFloat("Blue");
+			blue.setValue(0.2f);
+			body.addTag(red);
+			body.addTag(green);
+			body.addTag(blue);
+			cBody.set(0.6f, 0.3f, 0.2f);
+			// Arm
+			TagSubtag arm = new TagSubtag("Arm");
+			red = new TagFloat("Red");
+			red.setValue(0.6f);
+			green = new TagFloat("Green");
+			green.setValue(0.3f);
+			blue = new TagFloat("Blue");
+			blue.setValue(0.2f);
+			arm.addTag(red);
+			arm.addTag(green);
+			arm.addTag(blue);
+			cArm.set(0.6f, 0.3f, 0.2f);
+			// Shoe
+			TagSubtag shoe = new TagSubtag("Shoe");
+			red = new TagFloat("Red");
+			red.setValue(0.4f);
+			green = new TagFloat("Green");
+			green.setValue(0.3f);
+			blue = new TagFloat("Blue");
+			blue.setValue(0.1f);
+			shoe.addTag(red);
+			shoe.addTag(green);
+			shoe.addTag(blue);
+			cShoe.set(0.6f, 0.3f, 0.2f);
+			// Append
+			color.addTag(hair);
+			color.addTag(body);
+			color.addTag(arm);
+			color.addTag(shoe);
+			user.addTag(color);
+		}
 		// Launch the Gameworld
 		Accept accept = new Accept();
 		accept.name = name;
@@ -72,6 +154,10 @@ public class World {
 		accept.x = vx;
 		accept.y = vy;
 		accept.lookLeft = vlookleft;
+		accept.arm = cArm;
+		accept.body = cBody;
+		accept.hair = cHair;
+		accept.shoe = cShoe;
 		con.sendTCP(accept);
 		// Send other Entities to him
 		for (Entity entity : entities.values()) {
@@ -83,6 +169,10 @@ public class World {
 				ap.x = ep.x;
 				ap.y = ep.y;
 				ap.lookLeft = ep.lookLeft;
+				ap.arm = ep.arm;
+				ap.body = ep.body;
+				ap.hair = ep.hair;
+				ap.shoe = ep.shoe;
 				con.sendTCP(ap);
 			}
 		}
@@ -92,6 +182,10 @@ public class World {
 		ep.x = vx;
 		ep.y = vy;
 		ep.lookLeft = vlookleft;
+		ep.arm = cArm;
+		ep.hair = cHair;
+		ep.body = cBody;
+		ep.shoe = cShoe;
 		entities.put(accept.ID, ep);
 		// Send him to other Players
 		PlayerAdd ap = new PlayerAdd();
@@ -100,6 +194,10 @@ public class World {
 		ap.x = ep.x;
 		ap.y = ep.y;
 		ap.lookLeft = ep.lookLeft;
+		ap.arm = ep.arm;
+		ap.body = ep.body;
+		ap.hair = ep.hair;
+		ap.shoe = ep.shoe;
 		gs.server.sendToAllExceptTCP(con.getID(), ap);
 	}
 
