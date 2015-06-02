@@ -29,6 +29,10 @@ public class ClientListener extends Listener {
 			if (obj instanceof Accept) {
 				Accept accept = (Accept) obj;
 				gg.login(accept.ID, accept.name);
+				gg.world.player.arm = accept.arm;
+				gg.world.player.body = accept.body;
+				gg.world.player.hair = accept.hair;
+				gg.world.player.shoe = accept.shoe;
 				gg.world.player.x = accept.x;
 				gg.world.player.y = accept.y;
 				gg.world.player.lookLeft = accept.lookLeft;
@@ -37,8 +41,14 @@ public class ClientListener extends Listener {
 				EntityPlayer ep = new EntityPlayer(gg.world, ap.ID);
 				ep.name = ap.name;
 				ep.x = ap.x;
+				ep.lerpX = ap.x;
 				ep.y = ap.y;
+				ep.lerpY = ap.y;
 				ep.lookLeft = ap.lookLeft;
+				ep.arm = ap.arm;
+				ep.body = ap.body;
+				ep.hair = ap.hair;
+				ep.shoe = ap.shoe;
 				gg.world.entities.put(ap.ID, ep);
 			} else if (obj instanceof EntityMove) {
 				EntityMove em = (EntityMove) obj;
