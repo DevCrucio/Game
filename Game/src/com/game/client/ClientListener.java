@@ -2,12 +2,14 @@ package com.game.client;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
+import com.game.item.Item;
 import com.game.packet.Accept;
 import com.game.packet.ChunkAdd;
 import com.game.packet.ChunkRem;
 import com.game.packet.EntityMove;
 import com.game.packet.EntityRem;
 import com.game.packet.PlayerAdd;
+import com.game.packet.SendItem;
 import com.game.util.Misc;
 
 public class ClientListener extends Listener {
@@ -71,6 +73,18 @@ public class ClientListener extends Listener {
 				ChunkRem cr = (ChunkRem) obj;
 				gg.world.chunks.get(cr.x + "x" + cr.y).destroy();
 				gg.world.chunks.remove(cr.x + "x" + cr.y);
+			} else if (obj instanceof SendItem) {
+				SendItem si = (SendItem) obj;
+				gg.world.player.inv.amount = si.amount;
+				for (int i = 0; i < si.items.length; i++) {
+					if (si.items[i] != -1) {
+						gg.world.player.inv.items[i] = Item.items[si.items[i]];
+						gg.world.player.inv.items[i].name = si.name[i];
+						gg.world.player.inv.items[i].meta = si.meta[i];
+					} else {
+						gg.world.player.inv.items[i] = null;
+					}
+				}
 			}
 		} catch (NullPointerException e) {
 			Misc.log("NullPointerException - Error");
@@ -78,4 +92,9 @@ public class ClientListener extends Listener {
 
 	}
 
+	@Override
+	public void disconnected(Connection con) {
+		Misc.log("Disconnected? :O");
+		System.exit(0);
+	}
 }
