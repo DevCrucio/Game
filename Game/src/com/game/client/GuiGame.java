@@ -21,13 +21,14 @@ public class GuiGame extends Gui {
 		this.name = name;
 		try {
 			// Setup Client
-			client = new Client();
+			client = new Client(8192 * 4, 2048 * 4);
 			client.addListener(new ClientListener(this));
 			Misc.reg(client.getKryo());
 			client.start();
 			client.connect(5000, ip, port, port);
 		} catch (IOException e) {
 			e.printStackTrace();
+			System.exit(0);
 		}
 	}
 
