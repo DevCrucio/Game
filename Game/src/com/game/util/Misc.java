@@ -12,6 +12,7 @@ import com.game.packet.EntityMove;
 import com.game.packet.EntityRem;
 import com.game.packet.Login;
 import com.game.packet.PlayerAdd;
+import com.game.packet.SendItem;
 
 public class Misc {
 	/*
@@ -30,6 +31,7 @@ public class Misc {
 	public static void reg(Kryo kryo) {
 		// Array
 		kryo.register(int[].class);
+		kryo.register(String[].class);
 		// Own Classes
 		kryo.register(Accept.class);
 		kryo.register(ChunkAdd.class);
@@ -39,5 +41,6 @@ public class Misc {
 		kryo.register(EntityRem.class);
 		kryo.register(Login.class);
 		kryo.register(PlayerAdd.class);
+		kryo.register(SendItem.class);
 	}
 }

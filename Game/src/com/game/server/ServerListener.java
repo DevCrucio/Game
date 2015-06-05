@@ -25,6 +25,7 @@ public class ServerListener extends Listener {
 			File file = new File("./server/" + login.name + ".cgx");
 			if (!file.exists()) {
 				// Account does not exist
+				con.close();
 				return;
 			}
 			TagSubtag user = (TagSubtag) Tag.load(file);
@@ -46,9 +47,11 @@ public class ServerListener extends Listener {
 					Misc.log(name.getValue() + " joined the Game.");
 				} else {
 					// Password incorrect
+					con.close();
 				}
 			} else {
 				// Already Logged In
+				con.close();
 			}
 		}
 	}

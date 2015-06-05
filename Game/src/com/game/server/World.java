@@ -217,8 +217,8 @@ public class World {
 			entity.update(delta);
 		}
 		send += delta;
-		if (send >= 50) {
-			send -= 50;
+		if (send >= 67) {
+			send -= 67;
 			// Send
 			for (Entity entity : entities.values()) {
 				entity.send();
