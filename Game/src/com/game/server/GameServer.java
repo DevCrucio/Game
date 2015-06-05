@@ -26,7 +26,7 @@ public class GameServer extends Thread {
 	public GameServer() {
 		try {
 			Misc.log("Starting Server ...");
-			server = new Server();
+			server = new Server(16384 * 4, 2048 * 4);
 			server.addListener(new ServerListener(this));
 			Misc.reg(server.getKryo());
 			Misc.log("Port " + 12345 + " ...");
@@ -38,6 +38,7 @@ public class GameServer extends Thread {
 			e.printStackTrace();
 		}
 		// Loop
+		new Console(this);
 		Misc.log("Done!");
 		getDelta();
 		while (run) {
