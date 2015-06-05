@@ -50,37 +50,37 @@ public class Chunk {
 				if (value == 1) {
 					GL11.glBegin(GL11.GL_QUADS);
 					GL11.glTexCoord2f(0f / 32f, 1f / 32f);
-					GL11.glVertex2f(0, 0);
+					GL11.glVertex2f(-0.005f, -0.005f);
 					GL11.glTexCoord2f(1f / 32f, 1f / 32f);
-					GL11.glVertex2f(16, 0);
+					GL11.glVertex2f(16.005f, -0.005f);
 					GL11.glTexCoord2f(1f / 32f, 0f / 32f);
-					GL11.glVertex2f(16, 16);
+					GL11.glVertex2f(16.005f, 16.005f);
 					GL11.glTexCoord2f(0f / 32f, 0f / 32f);
-					GL11.glVertex2f(0, 16);
+					GL11.glVertex2f(-0.005f, 16.005f);
 					GL11.glEnd();
 				}
 				if (value == 2) {
 					GL11.glBegin(GL11.GL_QUADS);
 					GL11.glTexCoord2f(1f / 32f, 1f / 32f);
-					GL11.glVertex2f(0, 0);
+					GL11.glVertex2f(-0.005f, -0.005f);
 					GL11.glTexCoord2f(2f / 32f, 1f / 32f);
-					GL11.glVertex2f(16, 0);
+					GL11.glVertex2f(16.005f, -0.005f);
 					GL11.glTexCoord2f(2f / 32f, 0f / 32f);
-					GL11.glVertex2f(16, 16);
+					GL11.glVertex2f(16.005f, 16.005f);
 					GL11.glTexCoord2f(1f / 32f, 0f / 32f);
-					GL11.glVertex2f(0, 16);
+					GL11.glVertex2f(-0.005f, 16.005f);
 					GL11.glEnd();
 				}
 				if (value == 3) {
 					GL11.glBegin(GL11.GL_QUADS);
 					GL11.glTexCoord2f(2f / 32f, 1f / 32f);
-					GL11.glVertex2f(0, 0);
+					GL11.glVertex2f(-0.005f, -0.005f);
 					GL11.glTexCoord2f(3f / 32f, 1f / 32f);
-					GL11.glVertex2f(16, 0);
+					GL11.glVertex2f(16.005f, -0.005f);
 					GL11.glTexCoord2f(3f / 32f, 0f / 32f);
-					GL11.glVertex2f(16, 16);
+					GL11.glVertex2f(16.005f, 16.005f);
 					GL11.glTexCoord2f(2f / 32f, 0f / 32f);
-					GL11.glVertex2f(0, 16);
+					GL11.glVertex2f(-0.005f, 16.005f);
 					GL11.glEnd();
 				}
 				GL11.glPopMatrix();
