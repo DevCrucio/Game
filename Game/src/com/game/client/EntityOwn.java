@@ -267,7 +267,7 @@ public class EntityOwn extends Entity {
 		// Text Rendering
 		GL11.glColor3f(0.4f, 1.0f, 0.4f);
 		GL11.glTranslatef(x, y + 30, 0);
-		this.world.gg.gc.text.draw(name, 0.5f, Text.ALIGN.CENTER);
+		this.world.gg.gc.text.draw(name, 0.501f, Text.ALIGN.CENTER);
 	}
 
 	/*
@@ -347,6 +347,7 @@ public class EntityOwn extends Entity {
 		switch (state) {
 		case game:
 			world.gg.gc.text.draw("Game", 1f, ALIGN.LEFT);
+
 			break;
 		case inventory:
 			world.gg.store.get("Inv").bind();
@@ -383,7 +384,7 @@ public class EntityOwn extends Entity {
 				for (int y = 0; y < 4; y++) {
 					GL11.glPushMatrix();
 					GL11.glTranslatef(544 + x * 48, 342 - y * 48, 0);
-					inv.drawItem(x + y * 2);
+					inv.drawItem(x + y * 2, world);
 					GL11.glPopMatrix();
 				}
 			}
@@ -391,7 +392,7 @@ public class EntityOwn extends Entity {
 				for (int y = 0; y < 3; y++) {
 					GL11.glPushMatrix();
 					GL11.glTranslatef(368 + x * 122, 294 - y * 48, 0);
-					inv.drawItem(8 + x + y * 2);
+					inv.drawItem(8 + x + y * 2, world);
 					GL11.glPopMatrix();
 				}
 			}

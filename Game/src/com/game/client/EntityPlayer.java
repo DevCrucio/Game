@@ -211,7 +211,7 @@ public class EntityPlayer extends Entity {
 		// Text Rendering
 		GL11.glColor3f(0.2f, 1.0f, 1.0f);
 		GL11.glTranslatef(x, y + 30, 0);
-		this.world.gg.gc.text.draw(name, 0.5f, Text.ALIGN.CENTER);
+		this.world.gg.gc.text.draw(name, 0.501f, Text.ALIGN.CENTER);
 	}
 
 }
