@@ -6,8 +6,15 @@ public abstract class Item {
 	/*
 	 * Standard Methods
 	 */
+	public final int ID;
+	public int maxStack;
+	public String name = "";
+	public String meta = "";
+
 	public Item(int ID) {
+		this.ID = ID;
 		items[ID] = this;
+		maxStack = 100;
 	}
 
 	public static void render(int num) {
@@ -16,9 +23,10 @@ public abstract class Item {
 		}
 	}
 
-	private static Item[] items = new Item[1024];
+	public static Item[] items = new Item[1024];
 	/*
 	 * Items
 	 */
-	public static Item ITEM_STONESWORD = new ItemStoneSword(0);
+	public static Item ITEM_STONESWORD = new ItemStoneSword(0, 1);
+	public static Item ITEM_STONEPICKAXE = new ItemStonePick(1, 16);
 }
