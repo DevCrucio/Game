@@ -1,6 +1,6 @@
 package com.game.packet;
 
-public class SendItem {
+public class ItemSend {
 	public int[] items;
 	public int[] amount;
 	public String[] name;
