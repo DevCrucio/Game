@@ -19,7 +19,8 @@ import com.game.packet.ChunkRem;
 import com.game.packet.Color;
 import com.game.packet.EntityMove;
 import com.game.packet.EntityRem;
-import com.game.packet.SendItem;
+import com.game.packet.ItemSend;
+import com.game.packet.ItemSwitch;
 import com.game.util.Misc;
 
 public class EntityPlayer extends Entity {
@@ -45,7 +46,7 @@ public class EntityPlayer extends Entity {
 				TagSubtag item = (TagSubtag) inv.getTag("Item" + i);
 				TagInt id = (TagInt) item.getTag("ID");
 				if (id.getValue() != -1) {
-					this.inv.items[i] = Item.items[id.getValue()];
+					this.inv.items[i] = Item.items[id.getValue()].clone();
 					TagInt am = (TagInt) item.getTag("Amount");
 					this.inv.amount[i] = am.getValue();
 					TagString name = (TagString) item.getTag("Name");
@@ -124,7 +125,7 @@ public class EntityPlayer extends Entity {
 	}
 
 	public void sendInv() {
-		SendItem si = new SendItem();
+		ItemSend si = new ItemSend();
 		si.items = new int[inv.items.length];
 		si.amount = new int[inv.amount.length];
 		si.name = new String[inv.amount.length];
@@ -155,6 +156,15 @@ public class EntityPlayer extends Entity {
 				dx = em.dx;
 				dy = em.dy;
 				lookLeft = em.lookLeft;
+			} else if (obj instanceof ItemSwitch) {
+				ItemSwitch is = (ItemSwitch) obj;
+				Item temp = inv.items[is.mark];
+				int tempa = inv.amount[is.mark];
+				inv.items[is.mark] = inv.items[is.switcher];
+				inv.amount[is.mark] = inv.amount[is.switcher];
+				inv.items[is.switcher] = temp;
+				inv.amount[is.switcher] = tempa;
+				sendInv();
 			}
 		}
 

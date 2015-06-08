@@ -1,11 +1,13 @@
 package com.game.client;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import com.game.item.Inventory;
 import com.game.packet.Color;
 import com.game.packet.EntityMove;
+import com.game.packet.ItemSwitch;
 import com.game.util.Box;
 import com.game.util.Text;
 import com.game.util.Text.ALIGN;
@@ -327,6 +329,70 @@ public class EntityOwn extends Entity {
 					}
 				}
 			}
+			// Marking with Mouse
+			while (Mouse.next()) {
+				if (Mouse.getEventButtonState()) {
+					if (Mouse.getEventButton() == 0) {
+						int X = Mouse.getEventX();
+						int Y = Mouse.getEventY();
+						if (mark == -1) {
+							// Normal Gui
+							for (int x = 0; x < 2; x++) {
+								for (int y = 0; y < 4; y++) {
+									Box box = new Box(544 + x * 48,
+											342 - y * 48, 20, 20);
+									Box mou = new Box(X, Y, 1, 1);
+									if (box.check(mou)) {
+										mark = x + y * 2;
+									}
+								}
+							}
+							// Equip Gui
+							for (int x = 0; x < 2; x++) {
+								for (int y = 0; y < 3; y++) {
+									Box box = new Box(368 + x * 122,
+											294 - y * 48, 20, 20);
+									Box mou = new Box(X, Y, 1, 1);
+									if (box.check(mou)) {
+										mark = 8 + x + y * 2;
+									}
+								}
+							}
+						} else {
+							// Normal Gui
+							int switcher = -1;
+							for (int x = 0; x < 2; x++) {
+								for (int y = 0; y < 4; y++) {
+									Box box = new Box(544 + x * 48,
+											342 - y * 48, 20, 20);
+									Box mou = new Box(X, Y, 1, 1);
+									if (box.check(mou)) {
+										switcher = x + y * 2;
+									}
+								}
+							}
+							// Equip Gui
+							for (int x = 0; x < 2; x++) {
+								for (int y = 0; y < 3; y++) {
+									Box box = new Box(368 + x * 122,
+											294 - y * 48, 20, 20);
+									Box mou = new Box(X, Y, 1, 1);
+									if (box.check(mou)) {
+										switcher = 8 + x + y * 2;
+									}
+								}
+							}
+							if (switcher != -1) {
+								ItemSwitch is = new ItemSwitch();
+								is.mark = mark;
+								is.switcher = switcher;
+								world.gg.client.sendTCP(is);
+							}
+							mark = -1;
+						}
+					}
+				}
+			}
 			break;
 		case menu:
 			while (Keyboard.next()) {
@@ -341,6 +407,7 @@ public class EntityOwn extends Entity {
 	}
 
 	// Gui Render
+	int mark = -1; // Inventory Slot Marker
 
 	public void gui() {
 		GL11.glColor3f(1, 1, 1);
@@ -385,6 +452,21 @@ public class EntityOwn extends Entity {
 					GL11.glPushMatrix();
 					GL11.glTranslatef(544 + x * 48, 342 - y * 48, 0);
 					inv.drawItem(x + y * 2, world);
+					if (mark == x + y * 2) {
+						// Draw Marker
+						GL11.glColor4f(1, 1, 1, 1);
+						world.gg.store.get("Marker").bind();
+						GL11.glBegin(GL11.GL_QUADS);
+						GL11.glTexCoord2f(1, 0);
+						GL11.glVertex2f(24, 24);
+						GL11.glTexCoord2f(0, 0);
+						GL11.glVertex2f(-24, 24);
+						GL11.glTexCoord2f(0, 1);
+						GL11.glVertex2f(-24, -24);
+						GL11.glTexCoord2f(1, 1);
+						GL11.glVertex2f(24, -24);
+						GL11.glEnd();
+					}
 					GL11.glPopMatrix();
 				}
 			}
@@ -393,7 +475,79 @@ public class EntityOwn extends Entity {
 					GL11.glPushMatrix();
 					GL11.glTranslatef(368 + x * 122, 294 - y * 48, 0);
 					inv.drawItem(8 + x + y * 2, world);
+					if (mark == 8 + x + y * 2) {
+						// Draw Marker
+						GL11.glColor4f(1, 1, 1, 1);
+						world.gg.store.get("Marker").bind();
+						GL11.glBegin(GL11.GL_QUADS);
+						GL11.glTexCoord2f(1, 0);
+						GL11.glVertex2f(24, 24);
+						GL11.glTexCoord2f(0, 0);
+						GL11.glVertex2f(-24, 24);
+						GL11.glTexCoord2f(0, 1);
+						GL11.glVertex2f(-24, -24);
+						GL11.glTexCoord2f(1, 1);
+						GL11.glVertex2f(24, -24);
+						GL11.glEnd();
+					}
 					GL11.glPopMatrix();
+				}
+			}
+			// Item Info
+			int X = Mouse.getX();
+			int Y = Mouse.getY();
+			// Normal Gui
+			for (int x = 0; x < 2; x++) {
+				for (int y = 0; y < 4; y++) {
+					if (inv.items[x + y * 2] != null
+							&& inv.amount[x + y * 2] != 0) {
+						Box box = new Box(544 + x * 48, 342 - y * 48, 20, 20);
+						Box mou = new Box(X, Y, 1, 1);
+						if (box.check(mou)) {
+							GL11.glPushMatrix();
+							GL11.glTranslatef(X, Y, 0);
+							GL11.glColor4f(1, 1, 1, 1);
+							world.gg.store.get("ItemInfo").bind();
+							GL11.glBegin(GL11.GL_QUADS);
+							GL11.glTexCoord2f(1, 0);
+							GL11.glVertex2f(128, 0);
+							GL11.glTexCoord2f(0, 0);
+							GL11.glVertex2f(0, 0);
+							GL11.glTexCoord2f(0, 1);
+							GL11.glVertex2f(0, -128);
+							GL11.glTexCoord2f(1, 1);
+							GL11.glVertex2f(128, -128);
+							GL11.glEnd();
+							GL11.glPopMatrix();
+						}
+					}
+				}
+			}
+			// Equip Gui
+			for (int x = 0; x < 2; x++) {
+				for (int y = 0; y < 3; y++) {
+					if (inv.items[8 + x + y * 2] != null
+							&& inv.amount[8 + x + y * 2] != 0) {
+						Box box = new Box(368 + x * 122, 294 - y * 48, 20, 20);
+						Box mou = new Box(X, Y, 1, 1);
+						if (box.check(mou)) {
+							GL11.glPushMatrix();
+							GL11.glTranslatef(X, Y, 0);
+							GL11.glColor4f(1, 1, 1, 1);
+							world.gg.store.get("ItemInfo").bind();
+							GL11.glBegin(GL11.GL_QUADS);
+							GL11.glTexCoord2f(1, 0);
+							GL11.glVertex2f(128, 0);
+							GL11.glTexCoord2f(0, 0);
+							GL11.glVertex2f(0, 0);
+							GL11.glTexCoord2f(0, 1);
+							GL11.glVertex2f(0, -128);
+							GL11.glTexCoord2f(1, 1);
+							GL11.glVertex2f(128, -128);
+							GL11.glEnd();
+							GL11.glPopMatrix();
+						}
+					}
 				}
 			}
 			break;

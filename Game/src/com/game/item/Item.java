@@ -1,12 +1,12 @@
 package com.game.item;
 
-public abstract class Item {
+public abstract class Item implements Cloneable {
 	public abstract void render();
 
 	/*
 	 * Standard Methods
 	 */
-	public final int ID;
+	public int ID;
 	public int maxStack;
 	public String name = "";
 	public String meta = "";
@@ -29,4 +29,16 @@ public abstract class Item {
 	 */
 	public static Item ITEM_STONESWORD = new ItemStoneSword(0, 1);
 	public static Item ITEM_STONEPICKAXE = new ItemStonePick(1, 16);
+
+	@Override
+	public Item clone() {
+		try {
+			Item item = (Item) super.clone();
+			return item;
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

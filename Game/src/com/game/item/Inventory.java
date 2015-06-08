@@ -19,9 +19,11 @@ public class Inventory {
 		if (items[num] != null && amount[num] > 0) {
 			items[num].render();
 			if (amount[num] != 1) {
+				GL11.glPushMatrix();
 				GL11.glColor3f(50f / 255f, 50f / 255f, 50f / 255f);
 				GL11.glTranslatef(12, -14, 0);
 				world.gg.gc.text.draw(amount[num] + "", 0.5f, ALIGN.RIGHT);
+				GL11.glPopMatrix();
 			}
 		}
 	}
@@ -36,12 +38,12 @@ public class Inventory {
 		}
 		for (int i = 0; i < items.length; i++) {
 			if (items[i] == null) {
-				this.items[i] = Item.items[ID];
+				this.items[i] = Item.items[ID].clone();
 				this.amount[i] = amount;
 				return true;
 			}
 			if (this.amount[i] == 0) {
-				this.items[i] = Item.items[ID];
+				this.items[i] = Item.items[ID].clone();
 				this.amount[i] = amount;
 				return true;
 			}

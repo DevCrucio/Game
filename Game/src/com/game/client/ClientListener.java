@@ -8,8 +8,8 @@ import com.game.packet.ChunkAdd;
 import com.game.packet.ChunkRem;
 import com.game.packet.EntityMove;
 import com.game.packet.EntityRem;
+import com.game.packet.ItemSend;
 import com.game.packet.PlayerAdd;
-import com.game.packet.SendItem;
 import com.game.util.Misc;
 
 public class ClientListener extends Listener {
@@ -73,12 +73,13 @@ public class ClientListener extends Listener {
 				ChunkRem cr = (ChunkRem) obj;
 				gg.world.chunks.get(cr.x + "x" + cr.y).destroy();
 				gg.world.chunks.remove(cr.x + "x" + cr.y);
-			} else if (obj instanceof SendItem) {
-				SendItem si = (SendItem) obj;
+			} else if (obj instanceof ItemSend) {
+				ItemSend si = (ItemSend) obj;
 				gg.world.player.inv.amount = si.amount;
 				for (int i = 0; i < si.items.length; i++) {
 					if (si.items[i] != -1) {
-						gg.world.player.inv.items[i] = Item.items[si.items[i]];
+						gg.world.player.inv.items[i] = Item.items[si.items[i]]
+								.clone();
 						gg.world.player.inv.items[i].name = si.name[i];
 						gg.world.player.inv.items[i].meta = si.meta[i];
 					} else {
