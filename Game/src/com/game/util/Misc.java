@@ -10,9 +10,10 @@ import com.game.packet.ChunkRem;
 import com.game.packet.Color;
 import com.game.packet.EntityMove;
 import com.game.packet.EntityRem;
+import com.game.packet.ItemSend;
+import com.game.packet.ItemSwitch;
 import com.game.packet.Login;
 import com.game.packet.PlayerAdd;
-import com.game.packet.SendItem;
 
 public class Misc {
 	/*
@@ -39,8 +40,9 @@ public class Misc {
 		kryo.register(Color.class);
 		kryo.register(EntityMove.class);
 		kryo.register(EntityRem.class);
+		kryo.register(ItemSend.class);
+		kryo.register(ItemSwitch.class);
 		kryo.register(Login.class);
 		kryo.register(PlayerAdd.class);
-		kryo.register(SendItem.class);
 	}
 }
