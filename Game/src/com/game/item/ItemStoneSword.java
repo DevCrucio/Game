@@ -2,7 +2,7 @@ package com.game.item;
 
 import org.lwjgl.opengl.GL11;
 
-public class ItemStoneSword extends Item {
+public class ItemStoneSword extends TypeWeapon {
 
 	public ItemStoneSword(int ID, int maxStack) {
 		super(ID);
@@ -12,14 +12,33 @@ public class ItemStoneSword extends Item {
 
 	@Override
 	public void render() {
-		GL11.glColor3f(1, 0, 0);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
 		GL11.glBegin(GL11.GL_QUADS);
+		GL11.glTexCoord2f(0 / 32f, 1 / 32f);
 		GL11.glVertex2f(-8, -8);
+		GL11.glTexCoord2f(1 / 32f, 1 / 32f);
 		GL11.glVertex2f(8, -8);
+		GL11.glTexCoord2f(1 / 32f, 0 / 32f);
 		GL11.glVertex2f(8, 8);
+		GL11.glTexCoord2f(0 / 32f, 0 / 32f);
 		GL11.glVertex2f(-8, 8);
 		GL11.glEnd();
 	}
 
+	@Override
+	public void renderEquiped() {
+		GL11.glPushMatrix();
+		GL11.glTranslatef(-16, 6, 0);
+		GL11.glColor4f(1, 1, 1, 1);
+		GL11.glBegin(GL11.GL_QUADS);
+		GL11.glTexCoord2f(0 / 32f, 1 / 32f);
+		GL11.glVertex2f(16, -16);
+		GL11.glTexCoord2f(1 / 32f, 1 / 32f);
+		GL11.glVertex2f(-16, -16);
+		GL11.glTexCoord2f(1 / 32f, 0 / 32f);
+		GL11.glVertex2f(-16, 16);
+		GL11.glTexCoord2f(0 / 32f, 0 / 32f);
+		GL11.glVertex2f(16, 16);
+		GL11.glEnd();
+		GL11.glPopMatrix();
+	}
 }

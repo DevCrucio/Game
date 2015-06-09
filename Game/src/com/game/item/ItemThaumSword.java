@@ -2,24 +2,24 @@ package com.game.item;
 
 import org.lwjgl.opengl.GL11;
 
-public class ItemStonePick extends TypePickaxe {
+public class ItemThaumSword extends TypeWeapon {
 
-	public ItemStonePick(int ID, int maxStack) {
+	public ItemThaumSword(int ID, int maxStack) {
 		super(ID);
 		this.maxStack = maxStack;
-		this.name = "Stone Pick";
+		this.name = "Thaum Sword";
 	}
 
 	@Override
 	public void render() {
 		GL11.glBegin(GL11.GL_QUADS);
-		GL11.glTexCoord2f(1 / 32f, 1 / 32f);
+		GL11.glTexCoord2f(0 / 32f, 2 / 32f);
 		GL11.glVertex2f(-8, -8);
-		GL11.glTexCoord2f(2 / 32f, 1 / 32f);
+		GL11.glTexCoord2f(1 / 32f, 2 / 32f);
 		GL11.glVertex2f(8, -8);
-		GL11.glTexCoord2f(2 / 32f, 0 / 32f);
+		GL11.glTexCoord2f(1 / 32f, 1 / 32f);
 		GL11.glVertex2f(8, 8);
-		GL11.glTexCoord2f(1 / 32f, 0 / 32f);
+		GL11.glTexCoord2f(0 / 32f, 1 / 32f);
 		GL11.glVertex2f(-8, 8);
 		GL11.glEnd();
 	}
@@ -30,13 +30,13 @@ public class ItemStonePick extends TypePickaxe {
 		GL11.glTranslatef(-16, 6, 0);
 		GL11.glColor4f(1, 1, 1, 1);
 		GL11.glBegin(GL11.GL_QUADS);
-		GL11.glTexCoord2f(1 / 32f, 1 / 32f);
+		GL11.glTexCoord2f(0 / 32f, 2 / 32f);
 		GL11.glVertex2f(16, -16);
-		GL11.glTexCoord2f(2 / 32f, 1 / 32f);
+		GL11.glTexCoord2f(1 / 32f, 2 / 32f);
 		GL11.glVertex2f(-16, -16);
-		GL11.glTexCoord2f(2 / 32f, 0 / 32f);
+		GL11.glTexCoord2f(1 / 32f, 1 / 32f);
 		GL11.glVertex2f(-16, 16);
-		GL11.glTexCoord2f(1 / 32f, 0 / 32f);
+		GL11.glTexCoord2f(0 / 32f, 1 / 32f);
 		GL11.glVertex2f(16, 16);
 		GL11.glEnd();
 		GL11.glPopMatrix();

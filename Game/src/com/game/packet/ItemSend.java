@@ -5,4 +5,5 @@ public class ItemSend {
 	public int[] amount;
 	public String[] name;
 	public String[] meta;
+	public int[] rarity;
 }

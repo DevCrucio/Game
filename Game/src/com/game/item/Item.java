@@ -10,6 +10,7 @@ public abstract class Item implements Cloneable {
 	public int maxStack;
 	public String name = "";
 	public String meta = "";
+	public int rarity;
 
 	public Item(int ID) {
 		this.ID = ID;
@@ -28,7 +29,10 @@ public abstract class Item implements Cloneable {
 	 * Items
 	 */
 	public static Item ITEM_STONESWORD = new ItemStoneSword(0, 1);
-	public static Item ITEM_STONEPICKAXE = new ItemStonePick(1, 16);
+	public static Item ITEM_STONEPICKAXE = new ItemStonePick(1, 1);
+	public static Item ITEM_DIRT = new ItemDirt(2, 128, 2);
+	public static Item ITEM_STONE = new ItemStone(3, 128, 3);
+	public static Item ITEM_THAUMSWORD = new ItemThaumSword(4, 1);
 
 	@Override
 	public Item clone() {
@@ -40,5 +44,9 @@ public abstract class Item implements Cloneable {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public void renderEquiped() {
+
 	}
 }
