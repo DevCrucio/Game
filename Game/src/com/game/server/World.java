@@ -11,7 +11,10 @@ import com.game.file.TagFloat;
 import com.game.file.TagSubtag;
 import com.game.packet.Accept;
 import com.game.packet.Color;
+import com.game.packet.EntityItemAdd;
+import com.game.packet.ItemEquip;
 import com.game.packet.PlayerAdd;
+import com.game.util.Box;
 
 public class World {
 	/*
@@ -174,6 +177,36 @@ public class World {
 				ap.hair = ep.hair;
 				ap.shoe = ep.shoe;
 				con.sendTCP(ap);
+				// Send Inventory
+				ItemEquip ei = new ItemEquip();
+				ei.ID = ep.ID;
+				ei.items = new int[6];
+				ei.amount = new int[6];
+				ei.name = new String[6];
+				ei.meta = new String[6];
+				ei.rarity = new int[6];
+				for (int i = 0; i < 6; i++) {
+					if (ep.inv.items[i + 8] == null) {
+						ei.items[i] = -1;
+						ei.amount[i] = 0;
+					} else {
+						ei.items[i] = ep.inv.items[i + 8].ID;
+						ei.amount[i] = ep.inv.amount[i + 8];
+						ei.name[i] = ep.inv.items[i + 8].name;
+						ei.meta[i] = ep.inv.items[i + 8].meta;
+						ei.rarity[i] = ep.inv.items[i + 8].rarity;
+					}
+				}
+				con.sendTCP(ei);
+			} else if (entity instanceof EntityItem) {
+				// Items
+				EntityItem ei = (EntityItem) entity;
+				EntityItemAdd eia = new EntityItemAdd();
+				eia.ID = ei.ID;
+				eia.x = ei.x;
+				eia.y = ei.y;
+				eia.ItemID = ei.ItemID;
+				con.sendTCP(eia);
 			}
 		}
 		// Add him to the HashMap
@@ -199,6 +232,7 @@ public class World {
 		ap.hair = ep.hair;
 		ap.shoe = ep.shoe;
 		gs.server.sendToAllExceptTCP(con.getID(), ap);
+
 	}
 
 	/*
@@ -293,5 +327,24 @@ public class World {
 		}
 		// Load Chunk
 		return chunk;
+	}
+
+	public Box check(Box box) {
+		for (Chunk chunk : chunks) {
+			Box hit = chunk.check(box);
+			if (hit != null) {
+				return hit;
+			}
+		}
+		return null;
+	}
+
+	public boolean chunked(Box box) {
+		for (Chunk chunk : chunks) {
+			if (box.check(chunk.col)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
