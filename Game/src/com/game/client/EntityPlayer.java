@@ -2,12 +2,14 @@ package com.game.client;
 
 import org.lwjgl.opengl.GL11;
 
+import com.game.item.Inventory;
 import com.game.packet.Color;
 import com.game.util.Text;
 
 public class EntityPlayer extends Entity {
 	public String name;
 	public Color hair, body, arm, shoe;
+	public Inventory inv;
 
 	public EntityPlayer(World world, int ID) {
 		super(world, ID);
@@ -15,11 +17,12 @@ public class EntityPlayer extends Entity {
 		body = new Color();
 		arm = new Color();
 		shoe = new Color();
+		inv = new Inventory();
 	}
 
 	@Override
 	public void update(float delta) {
-		// TODO: Collision Detection
+		// Collision Detection
 		float lerp = 0.2f;
 		// Lerp X
 		x = x + ((lerpX - x) * lerp);
@@ -182,6 +185,11 @@ public class EntityPlayer extends Entity {
 		// Arm Front
 		GL11.glPushMatrix();
 		GL11.glTranslatef(2, -2, 0);
+		if (inv.items[9] != null) {
+			world.gg.store.get("Item").bind();
+			inv.items[9].renderEquiped();
+			world.gg.store.get("Char").bind();
+		}
 		GL11.glRotatef(-90, 0, 0, 1);
 		GL11.glBegin(GL11.GL_QUADS);
 		GL11.glColor4f(1, 1, 1, 1);
